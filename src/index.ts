@@ -5,32 +5,43 @@ import { ISnap } from './utils/snapModel';
 import { config } from "dotenv";
 import { Console } from 'console';
 import { Transform } from 'stream';
-import mongodb from 'mongodb'
+import { MongoClient } from 'mongodb'
 
-
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/snapIt"
+const MONGO_URI = "mongodb+srv://controllerDB:GX13iydToBEvEDq2@my-own.h5vekoq.mongodb.net/?retryWrites=true&w=majority"
 
 function table(input: any) {
-  // @see https://stackoverflow.com/a/67859384
-  const ts = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
-  const logger = new Console({ stdout: ts })
-  logger.table(input)
-  const table = (ts.read() || '').toString()
-  let result = '';
-  for (let row of table.split(/[\r\n]+/)) {
-    let r = row.replace(/[^┬]*┬/, '┌');
-    r = r.replace(/^├─*┼/, '├');
-    r = r.replace(/│[^│]*/, '');
-    r = r.replace(/^└─*┴/, '└');
-    r = r.replace(/'/g, ' ');
-    result += `${r}\n`;
-  }
-  console.log(result);
+    const ts = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
+    const logger = new Console({ stdout: ts })
+    logger.table(input)
+    const table = (ts.read() || '').toString()
+    let result = '';
+    for (let row of table.split(/[\r\n]+/)) {
+        let r = row.replace(/[^┬]*┬/, '┌')
+        r = r.replace(/^├─*┼/, '├');
+        r = r.replace(/│[^│]*/, '');
+        r = r.replace(/^└─*┴/, '└');
+        r = r.replace(/'/g, ' ');
+        result += `${r}\n`;
+    }
+    // replace all the strings using chalk
+    console.log(
+        result
+    );
 }
-    
+
 config()
+
+const listCommand = async () => {
+    const { snaps } = await createConnection();
+    const snapsList = await snaps.find().toArray();
+    // conserve only the fields we want to display
+    const mapped = snapsList.map(x => ({ tag: x.tag, description: x.description }));
+    table(mapped);
+    process.exit(0);
+};
+
 const createConnection = async () => {
-    const client = await mongodb.MongoClient.connect(MONGO_URI)
+    const client = await MongoClient.connect(MONGO_URI)
     const db = client.db()
     const snaps = db.collection("snaps")
     return { client, db, snaps }
@@ -40,7 +51,15 @@ const createConnection = async () => {
 
 const saveSnap = async (snapData: ISnap) => {
     try {
+        const { snaps } = await createConnection()
+        const snapExists = await snaps.findOne({ tag: snapData.tag })
+        if (snapExists) {
+            console.log("Snap tag already exists")
+            process.exit(0)
+        }
+        await snaps.insertOne(snapData)
         console.log("Snap saved")
+        process.exit(0)
     } catch (error) {
         console.log(error)
     }
@@ -76,15 +95,13 @@ program
     .description("Take a snap of a file")
     .action(snapCommand)
 
+
+
+
 program
     .command("list")
     .description("List all the snaps")
-    .action(async () => {
-        const { snaps } = await createConnection()
-        const snapsList = await snaps.find().toArray()
-        table(snapsList)
-        process.exit(0)
-    })
+    .action(listCommand)
 
 program.parse()
 
