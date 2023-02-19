@@ -1,25 +1,45 @@
 import { program } from "commander";
 import fs from 'fs'
 import { generateTag } from './utils/generateTag';
-import { ISnap, Snap } from "./utils/snapModel";
-import { connect } from "mongoose";
+import { ISnap } from './utils/snapModel';
+import { config } from "dotenv";
+import { Console } from 'console';
+import { Transform } from 'stream';
+import mongodb from 'mongodb'
 
 
-const createConnection = async () => {
-    try {
-        connect("mongodb://localhost:27017/snapIt", (err) => {
-            err ? console.log(err) : console.log("Connected to DB")
-        })
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/snapIt"
 
-    } catch (error) {
-        console.log(error)
-    }
+function table(input: any) {
+  // @see https://stackoverflow.com/a/67859384
+  const ts = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
+  const logger = new Console({ stdout: ts })
+  logger.table(input)
+  const table = (ts.read() || '').toString()
+  let result = '';
+  for (let row of table.split(/[\r\n]+/)) {
+    let r = row.replace(/[^┬]*┬/, '┌');
+    r = r.replace(/^├─*┼/, '├');
+    r = r.replace(/│[^│]*/, '');
+    r = r.replace(/^└─*┴/, '└');
+    r = r.replace(/'/g, ' ');
+    result += `${r}\n`;
+  }
+  console.log(result);
 }
+    
+config()
+const createConnection = async () => {
+    const client = await mongodb.MongoClient.connect(MONGO_URI)
+    const db = client.db()
+    const snaps = db.collection("snaps")
+    return { client, db, snaps }
+
+}
+
 
 const saveSnap = async (snapData: ISnap) => {
     try {
-        const snap = new Snap(snapData)
-        await snap.save()
         console.log("Snap saved")
     } catch (error) {
         console.log(error)
@@ -55,6 +75,16 @@ program
     .option("-d, --description <description>", "Description of the snap")
     .description("Take a snap of a file")
     .action(snapCommand)
+
+program
+    .command("list")
+    .description("List all the snaps")
+    .action(async () => {
+        const { snaps } = await createConnection()
+        const snapsList = await snaps.find().toArray()
+        table(snapsList)
+        process.exit(0)
+    })
 
 program.parse()
 
