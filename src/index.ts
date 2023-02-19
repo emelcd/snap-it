@@ -1,23 +1,14 @@
 import { program } from "commander";
-import fs from 'fs'
-import { ISnap } from './utils/snapModel';
-import { config } from "dotenv";
-
-import { MongoClient } from 'mongodb'
 import { snapCommand } from "./commands/snapCommand";
 import { listCommand } from "./commands/listCommand";
 import { loadCommand } from "./commands/loadCommand";
+import { deleteCommand } from "./commands/deleteCommand";
 
-const MONGO_URI = "mongodb+srv://controllerDB:GX13iydToBEvEDq2@my-own.h5vekoq.mongodb.net/?retryWrites=true&w=majority"
-
-
-
-config()
 
 
 program
     .name("snapIt")
-    .version("0.0.1")
+    .version("0.0.2")
     .description("A simple CLI to take snaps of files")
 
 program
@@ -40,6 +31,16 @@ program
     .description("List all the snaps")
     .action(listCommand)
 
+
+program
+    .command("delete")
+    .argument("<tag>", "Tag of the snap to delete")
+    .option("--all", "Delete all the snaps")
+    .description("Delete a snap")
+    .action(deleteCommand)
+
 program.parse()
+
+
 
 
