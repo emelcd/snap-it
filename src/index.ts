@@ -35,7 +35,6 @@ program
 program
     .command("delete")
     .argument("<tag>", "Tag of the snap to delete")
-    .option("--all", "Delete all the snaps")
     .description("Delete a snap")
     .action(deleteCommand)
 

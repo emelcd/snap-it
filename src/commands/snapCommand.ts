@@ -11,6 +11,10 @@ const saveSnap = async (snapData: ISnap) => {
             console.log("Snap tag already exists")
             process.exit(0)
         }
+        if (snapData.fileName === "ALL" || snapData.fileName === "all") {
+            console.log("Snap tag cannot be ALL")
+            process.exit(0)
+        }
         await snaps.insertOne(snapData)
         console.log("Snap saved")
         process.exit(0)
