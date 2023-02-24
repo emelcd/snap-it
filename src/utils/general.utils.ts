@@ -1,8 +1,8 @@
 import { Console } from 'console'
 import { Transform } from 'stream'
 
-export function table(input: any): void {
-  const ts = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
+export function table (input: any): void {
+  const ts = new Transform({ transform (chunk, enc, cb) { cb(null, chunk) } })
   const logger = new Console({ stdout: ts })
   logger.table(input)
   const table = (ts.read() || '').toString()
@@ -22,7 +22,7 @@ export function table(input: any): void {
   )
 }
 
-export function generateTag(): string {
+export function generateTag (): string {
   // Generate a random tag in the format AAA-123
   const letters = 'abcdefghijklmnopqrstuvwxyz'
   const numbers = '0123456789'

@@ -31,7 +31,7 @@ program
 
 program
   .command('delete')
-  .argument('<tag>', 'Tag of the snap to delete')
+  .argument('<tag>', 'Tag of the snap to delete, if ALL is passed, all snaps will be deleted')
   .description('Delete a snap')
   .action(deleteCommand)
 
