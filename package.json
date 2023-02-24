@@ -14,8 +14,10 @@
   "dependencies": {
     "commander": "^10.0.0",
     "dotenv": "^16.0.3",
+    "highlight.js": "^11.7.0",
     "istextorbinary": "^6.0.0",
-    "mongodb": "^5.0.1"
+    "mongodb": "^5.0.1",
+    "open": "^8.4.2"
   },
   "devDependencies": {
     "@types/eslint": "^8.21.1",
@@ -29,7 +31,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "typescript": "*"
   },
-  "bin":{
+  "bin": {
     "snap": "dist/index.js"
   }
 }
