@@ -2,7 +2,7 @@ import { createConnection } from '../utils/db.utils'
 import { generateTag } from '../utils/general.utils'
 import { type ISnap } from '../interfaces/snap.interface'
 import { readFileSync } from 'fs'
-import { isText } from 'istextorbinary/compiled-types'
+import { isText } from 'istextorbinary'
 
 const saveSnap = async (snapData: ISnap): Promise<void> => {
   try {
@@ -28,7 +28,7 @@ const saveSnap = async (snapData: ISnap): Promise<void> => {
 export async function snapCommand (file: string, options: any): Promise<void> {
   // console.log({ file, options })
   if (!isText(file)) {
-    console.log('File is not a text file')
+    console.log(`File ${file} is not a text file`)
     process.exit(0)
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

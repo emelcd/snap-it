@@ -7,7 +7,6 @@ export async function inspectCommand (tag: string): Promise<void> {
     console.log('Snap not found')
     process.exit(0)
   }
-  const cleanSnap = { tag: snapData.tag, fileName: snapData.fileName, fileExtension: snapData.fileExtension, description: snapData.description }
-  console.log(cleanSnap)
+  console.log(snapData)
   process.exit(0)
 }
