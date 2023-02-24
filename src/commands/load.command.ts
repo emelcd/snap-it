@@ -1,7 +1,7 @@
-import { createConnection } from '../utils/dbutils'
+import { createConnection } from '../utils/db.utils'
 import fs from 'fs'
 
-export async function loadCommand (tag: string, options: any) {
+export async function loadCommand (tag: string, options: any): Promise<void> {
   try {
     const { snaps } = await createConnection()
     const data = await snaps.findOne({ tag })

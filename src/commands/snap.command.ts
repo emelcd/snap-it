@@ -1,9 +1,9 @@
-import { createConnection } from '../utils/dbutils'
-import { generateTag } from '../utils/generalUtils'
-import { type ISnap } from '../utils/snapModel'
+import { createConnection } from '../utils/db.utils'
+import { generateTag } from '../utils/general.utils'
+import { type ISnap } from '../interfaces/snap.interface'
 import fs from 'fs'
 
-const saveSnap = async (snapData: ISnap) => {
+const saveSnap = async (snapData: ISnap): Promise<void> => {
   try {
     const { snaps } = await createConnection()
     const snapExists = await snaps.findOne({ tag: snapData.tag })
@@ -24,10 +24,11 @@ const saveSnap = async (snapData: ISnap) => {
   }
 }
 
-export async function snapCommand (file: string, options: any) {
+export async function snapCommand (file: string, options: any): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const fileName = file.split('/').pop()!
   const fileContent = fs.readFileSync(file, 'utf8').toString().split('\n').filter(l => l).join('\n')
-  const fileExtension = fileName.split('.').pop() || ''
+  const fileExtension = fileName.split('.').pop() ?? ''
   const tag = options.tag || generateTag()
   const description = options.description || ''
   try {

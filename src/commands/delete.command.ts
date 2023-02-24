@@ -1,4 +1,4 @@
-import { createConnection } from '../utils/dbutils'
+import { createConnection } from '../utils/db.utils'
 
 export async function deleteCommand (file: string, _options: any): Promise<void> {
   try {

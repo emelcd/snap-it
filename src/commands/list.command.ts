@@ -1,5 +1,5 @@
-import { createConnection } from '../utils/dbutils'
-import { table } from '../utils/generalUtils'
+import { createConnection } from '../utils/db.utils'
+import { table } from '../utils/general.utils'
 
 export const listCommand = async (): Promise<void> => {
   const { snaps } = await createConnection()
@@ -9,7 +9,7 @@ export const listCommand = async (): Promise<void> => {
     console.log('No snaps found')
     process.exit(0)
   }
-  const mapped = snapsList.map(x => ({ tag: x.tag, description: x.description }))
+  const mapped = snapsList.map((x) => ({ tag: x.tag, description: x.description }))
   table(mapped)
   process.exit(0)
 }
