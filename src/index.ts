@@ -4,6 +4,7 @@ import { listCommand } from './commands/list.command'
 import { loadCommand } from './commands/load.command'
 import { deleteCommand } from './commands/delete.command'
 import { previewCommand } from './commands/preview.command'
+import { inspectCommand } from './commands/inspect.command'
 
 program
   .name('snapIt')
@@ -41,5 +42,11 @@ program
   .description('Preview a snap')
   .argument('<tag>', 'Tag of the snap to preview')
   .action(previewCommand)
+
+program
+  .command('inspect')
+  .description('Inspect a snap')
+  .argument('<tag>', 'Tag of the snap to inspect')
+  .action(inspectCommand)
 
 program.parse()
