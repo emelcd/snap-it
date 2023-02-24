@@ -30,6 +30,10 @@ export async function snapCommand (file: string, options: any): Promise<void> {
   const fileContent = readFileSync(file, 'utf8').toString().split('\n').filter(l => l).join('\n')
   const fileExtension = fileName.split('.').pop() ?? ''
   const tag = options.tag || generateTag()
+  if (tag.length > 7) {
+    console.log('Tag cannot be longer than 7 characters')
+    process.exit(0)
+  }
   const description = options.description || ''
   try {
     await createConnection()

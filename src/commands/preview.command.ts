@@ -14,7 +14,6 @@ export async function previewCommand (tag: string): Promise<void> {
     console.log(`TAG: ${query.tag}`)
     query.description && console.log(`DESCRIPTION: ${query.description}`)
     // console.log(`DESCRIPTION: ${query.description}`)
-
     console.log('')
     console.log(query.fileContent.split('\n').slice(0, 10).join('\n'))
     process.exit(0)

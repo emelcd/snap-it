@@ -30,3 +30,10 @@ export function generateTag (): string {
   const randomNum = (): string => numbers[Math.floor(Math.random() * numbers.length)]
   return `${randomLetter()}${randomLetter()}${randomLetter()}-${randomNum()}${randomNum()}${randomNum()}`
 }
+
+export function cleanStringLength (str: string, length: number = Infinity): string {
+  if (str.length > length) {
+    return `${str.substring(0, length)}...`
+  }
+  return str
+}
