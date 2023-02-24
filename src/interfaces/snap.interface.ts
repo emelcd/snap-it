@@ -1,4 +1,3 @@
-
 export interface ISnap {
   fileName: string
   fileContent: string

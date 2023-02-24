@@ -1,7 +1,7 @@
 import { createConnection } from '../utils/db.utils'
 import { generateTag } from '../utils/general.utils'
 import { type ISnap } from '../interfaces/snap.interface'
-import fs from 'fs'
+import { readFileSync } from 'fs'
 
 const saveSnap = async (snapData: ISnap): Promise<void> => {
   try {
@@ -27,7 +27,7 @@ const saveSnap = async (snapData: ISnap): Promise<void> => {
 export async function snapCommand (file: string, options: any): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const fileName = file.split('/').pop()!
-  const fileContent = fs.readFileSync(file, 'utf8').toString().split('\n').filter(l => l).join('\n')
+  const fileContent = readFileSync(file, 'utf8').toString().split('\n').filter(l => l).join('\n')
   const fileExtension = fileName.split('.').pop() ?? ''
   const tag = options.tag || generateTag()
   const description = options.description || ''

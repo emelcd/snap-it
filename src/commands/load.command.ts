@@ -1,5 +1,5 @@
 import { createConnection } from '../utils/db.utils'
-import fs from 'fs'
+import { writeFileSync } from 'fs'
 
 export async function loadCommand (tag: string, options: any): Promise<void> {
   try {
@@ -11,7 +11,7 @@ export async function loadCommand (tag: string, options: any): Promise<void> {
     }
     const { fileName, fileContent } = data
     const name = options.name || fileName
-    fs.writeFileSync(name, fileContent, 'utf8')
+    writeFileSync(name, fileContent, 'utf8')
     console.log('Snap loaded')
     process.exit(0)
   } catch (error) {

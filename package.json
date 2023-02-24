@@ -1,20 +1,20 @@
 {
-  "name": "snapIt",
+  "name": "snap-it",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node src/index.ts",
-    "lint": "eslint src/**/*.ts --fix"
+    "lint": "eslint src/**/*.ts --fix",
+    "build": "esbuild src/index.ts --bundle --minify --platform=node --outfile=dist/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "emel",
   "license": "ISC",
   "dependencies": {
     "commander": "^10.0.0",
     "dotenv": "^16.0.3",
-    "mongodb": "^5.0.1",
-    "mongoose": "^6.9.2"
+    "mongodb": "^5.0.1"
   },
   "devDependencies": {
     "@types/eslint": "^8.21.1",
