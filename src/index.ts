@@ -3,6 +3,7 @@ import { snapCommand } from './commands/snap.command'
 import { listCommand } from './commands/list.command'
 import { loadCommand } from './commands/load.command'
 import { deleteCommand } from './commands/delete.command'
+import { previewCommand } from './commands/preview.command'
 
 program
   .name('snapIt')
@@ -34,5 +35,11 @@ program
   .argument('<tag>', 'Tag of the snap to delete, if ALL is passed, all snaps will be deleted')
   .description('Delete a snap')
   .action(deleteCommand)
+
+program
+  .command('preview')
+  .description('Preview a snap')
+  .argument('<tag>', 'Tag of the snap to preview')
+  .action(previewCommand)
 
 program.parse()

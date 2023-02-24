@@ -12,12 +12,15 @@
   "author": "emel",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "dotenv": "^16.0.3",
+    "mime": "^3.0.0",
     "mongodb": "^5.0.1"
   },
   "devDependencies": {
     "@types/eslint": "^8.21.1",
+    "@types/mime": "^3.0.1",
     "@types/node": "^18.14.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.52.0",

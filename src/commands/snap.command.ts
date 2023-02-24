@@ -16,7 +16,7 @@ const saveSnap = async (snapData: ISnap): Promise<void> => {
       process.exit(0)
     }
     await snaps.insertOne(snapData)
-    console.log('Snap saved')
+    console.log('Snap saved with tag:', snapData.tag)
     process.exit(0)
   } catch (error) {
     console.log(error)
@@ -33,7 +33,8 @@ export async function snapCommand (file: string, options: any): Promise<void> {
   const description = options.description || ''
   try {
     await createConnection()
-    await saveSnap({ fileName, fileContent, fileExtension, tag, description })
+    const snapToSave = { fileName, fileContent, fileExtension, tag, description }
+    await saveSnap(snapToSave)
   } catch (error) {
     console.log(error)
     process.exit(0)
