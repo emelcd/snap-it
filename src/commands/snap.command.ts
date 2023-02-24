@@ -25,6 +25,7 @@ const saveSnap = async (snapData: ISnap): Promise<void> => {
 }
 
 export async function snapCommand (file: string, options: any): Promise<void> {
+  console.log({ file, options })
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const fileName = file.split('/').pop()!
   const fileContent = readFileSync(file, 'utf8').toString().split('\n').filter(l => l).join('\n')
