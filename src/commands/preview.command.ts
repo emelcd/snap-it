@@ -16,11 +16,12 @@ export async function previewCommand (tag: string): Promise<void> {
 
     const server = http.createServer((req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/html' })
-      let finalConte = template.replace('{{name}}', query.fileName)
-      finalConte = finalConte.replace('{{tag}}', query.tag)
-      finalConte = finalConte.replace('{{description}}', query.description)
-      finalConte = finalConte.replace('{{content}}', query.fileContent)
-      res.write(finalConte)
+      let content = template.replace('{{name}}', query.fileName)
+      content = content.replace('{{tag}}', query.tag)
+      content = content.replace('{{description}}', query.description)
+      content = content.replace('{{content}}', query.fileContent)
+      // writeFileSync('./cache.html', content)
+      res.write(content)
       res.end()
     })
     server.listen(3000, () => {
@@ -30,13 +31,6 @@ export async function previewCommand (tag: string): Promise<void> {
         process.exit(0)
       }, 2e3)
     })
-    // console.log(`FILE NAME: ${query.fileName}`)
-    // console.log(`FILE EXTENSION: ${query.fileExtension}`)
-    // console.log(`TAG: ${query.tag}`)
-    // query.description && console.log(`DESCRIPTION: ${query.description}`)
-    // // console.log(`DESCRIPTION: ${query.description}`)
-    // console.log('')
-    // console.log(query.fileContent.split('\n').slice(0, 10).join('\n'))
   } catch (error) {
     console.log(error)
     process.exit(0)
