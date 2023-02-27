@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { createConnection } from '../utils/db.utils'
+import { readFileSync } from 'fs'
 import http from 'http'
 import open from 'open'
 
@@ -11,8 +12,15 @@ export async function previewCommand (tag: string): Promise<void> {
       console.log('Snap not found')
       process.exit(0)
     }
+    const template = readFileSync('/home/d/snap-it/src/data/template.html').toString()
+
     const server = http.createServer((req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/html' })
+      let finalConte = template.replace('{{name}}', query.fileName)
+      finalConte = finalConte.replace('{{tag}}', query.tag)
+      finalConte = finalConte.replace('{{description}}', query.description)
+      finalConte = finalConte.replace('{{content}}', query.fileContent)
+      res.write(finalConte)
       res.end()
     })
     server.listen(3000, () => {
