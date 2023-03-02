@@ -36,6 +36,7 @@ export const recursiveSnap = async (file: string, options: any): Promise<void> =
   const tag = options.tag || generateTag()
   const description = options.description || ''
   const snap: ISnapRecursive = {
+    name: folderPath,
     isFolder: true,
     folders,
     size,

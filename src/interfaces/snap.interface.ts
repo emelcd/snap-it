@@ -1,5 +1,5 @@
 export interface ISnap {
-  fileName: string
+  name: string
   fileContent: string
   fileExtension: string
   tag: string
@@ -14,6 +14,7 @@ export interface IFileRecursive {
 }
 
 export interface ISnapRecursive {
+  name: string
   isFolder: boolean
   folders: string[]
   size: number

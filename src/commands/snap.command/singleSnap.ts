@@ -11,10 +11,10 @@ export const singleSnap = async (file: string, options: any): Promise<void> => {
     process.exit(0)
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const fileName = file.split('/').pop()!
+  const name = file.split('/').pop()!
   const fileContent = readFileSync(file, 'utf8').toString()
   // .split('\n').filter(l => l).join('\n')
-  const fileExtension = fileName.split('.').pop() ?? ''
+  const fileExtension = name.split('.').pop() ?? ''
   const tag = options.tag || generateTag()
   if (tag.length > 7) {
     console.log('Tag cannot be longer than 7 characters')
@@ -22,7 +22,7 @@ export const singleSnap = async (file: string, options: any): Promise<void> => {
   }
   const description = options.description || ''
   const size = sizeof(fileContent)
-  const snapToSave = { fileName, fileContent, fileExtension, tag, description, size, isFolder: false }
+  const snapToSave = { name, fileContent, fileExtension, tag, description, size, isFolder: false }
   try {
     await createConnection()
     await saveSingleSnap(snapToSave)
@@ -40,7 +40,7 @@ const saveSingleSnap = async (snapData: ISnap): Promise<void> => {
       console.log('Snap tag already exists, try again')
       process.exit(0)
     }
-    if (snapData.fileName.toLowerCase() === 'all') {
+    if (snapData.name.toLowerCase() === 'all') {
       console.log('Snap tag cannot be ALL')
       process.exit(0)
     }
