@@ -76,8 +76,15 @@ const toFileRecursive = (filePaths: string[]): IFileRecursive[] => {
 }
 
 const files = toFileRecursive(entriesFiles)
-console.log(sizeof(files))
-
+const size = sizeof(files)
+const snap: ISnapRecursive = {
+  folders: emptyObjects,
+  size,
+  tag: 'test',
+  description: 'test',
+  files
+}
+console.log(snap)
 // create a directory for each empty object in test_folder
 // emptyObjects.forEach(([key, value]) => {
 //   if (fs.existsSync(`test_folder/${key}`)) return

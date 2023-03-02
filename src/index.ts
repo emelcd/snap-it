@@ -16,6 +16,7 @@ program
   .argument('<file>', 'File to take a snap of')
   .option('-t, --tag <tag>', 'Tag to add to the snap')
   .option('-d, --description <description>', 'Description of the snap')
+  .option('-r, --recursive', 'Take a recursive snap of a folder')
   .description('Take a snap of a file')
   .action(snapCommand)
 
