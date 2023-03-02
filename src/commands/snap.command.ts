@@ -3,6 +3,7 @@ import { generateTag } from '../utils/general.utils'
 import { type ISnap } from '../interfaces/snap.interface'
 import { readFileSync } from 'fs'
 import { isText } from 'istextorbinary'
+import sizeof from 'object-sizeof'
 
 const saveSnap = async (snapData: ISnap): Promise<void> => {
   try {
@@ -33,7 +34,8 @@ export async function snapCommand (file: string, options: any): Promise<void> {
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const fileName = file.split('/').pop()!
-  const fileContent = readFileSync(file, 'utf8').toString().split('\n').filter(l => l).join('\n')
+  const fileContent = readFileSync(file, 'utf8').toString()
+  // .split('\n').filter(l => l).join('\n')
   const fileExtension = fileName.split('.').pop() ?? ''
   const tag = options.tag || generateTag()
   if (tag.length > 7) {
@@ -41,9 +43,10 @@ export async function snapCommand (file: string, options: any): Promise<void> {
     process.exit(0)
   }
   const description = options.description || ''
+  const size = sizeof(fileContent)
+  const snapToSave = { fileName, fileContent, fileExtension, tag, description, size }
   try {
     await createConnection()
-    const snapToSave = { fileName, fileContent, fileExtension, tag, description }
     await saveSnap(snapToSave)
   } catch (error) {
     console.log(error)

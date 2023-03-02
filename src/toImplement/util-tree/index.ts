@@ -1,14 +1,23 @@
-import fs from 'fs'
+import fs, { readFileSync } from 'fs'
 import { isText } from 'istextorbinary'
-import { type ISnap } from '../../interfaces/snap.interface'
+import sizeof from 'object-sizeof'
+
 interface FolderContents {
   // eslint-disable-next-line @typescript-eslint/ban-types
   [key: string]: FolderContents | boolean | Object
 }
 
+export interface IFileRecursive {
+  filePath: string
+  fileContent: string
+}
+
 export interface ISnapRecursive {
   folders: string[]
-  files: ISnap[]
+  size: number
+  tag: string
+  description: string
+  files: IFileRecursive[]
 }
 
 function readFolderRecursive (folderPath: string): FolderContents {
@@ -39,15 +48,10 @@ function readFolderRecursive (folderPath: string): FolderContents {
 
   return folderContents
 }
+
 const folderPath = './src'
-// const isText = (path: string) => {
-//   const textExtensions = ['.txt', '.md', '.js', '.ts'];
-//   const extension = path.slice(path.lastIndexOf('.'));
-//   return textExtensions.includes(extension);
-// };
 const folderContents = readFolderRecursive(folderPath)
 
-console.log(folderContents)
 // folder Contents is an object
 const entriesFolder = Object.entries(folderContents)
 // get the values that are equal to an empty object
@@ -55,15 +59,29 @@ const emptyObjects = entriesFolder.filter(([key, value]) => {
   return typeof value === 'object' && Object.keys(value).length === 0
 }).map(n => n[0])
 
-console.log(emptyObjects)
-// create a directory for each empty object in test_folder
-emptyObjects.forEach(([key, value]) => {
-  if (fs.existsSync(`test_folder/${key}`)) return
-  fs.mkdirSync(`test_folder/${key}`, { recursive: true })
-})
+const entriesFiles = [...entriesFolder.filter(([key, value]) => {
+  return typeof value === 'boolean'
+}).values()].map(n => n[0])
 
-// const entriesFiles = entriesFolder.filter(([key, value]) => {
-//   return typeof value === 'boolean'
+console.log(emptyObjects)
+console.log(entriesFiles)
+
+const toFileRecursive = (filePaths: string[]): IFileRecursive[] => {
+  return filePaths.map((filePath) => {
+    return {
+      filePath,
+      fileContent: readFileSync(folderPath + '/' + filePath).toString()
+    }
+  })
+}
+
+const files = toFileRecursive(entriesFiles)
+console.log(sizeof(files))
+
+// create a directory for each empty object in test_folder
+// emptyObjects.forEach(([key, value]) => {
+//   if (fs.existsSync(`test_folder/${key}`)) return
+//   fs.mkdirSync(`test_folder/${key}`, { recursive: true })
 // })
 
 // read the content of the files

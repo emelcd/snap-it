@@ -4,4 +4,5 @@ export interface ISnap {
   fileExtension: string
   tag: string
   description: string
+  size: number
 }
