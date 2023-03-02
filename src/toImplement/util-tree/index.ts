@@ -1,9 +1,14 @@
 import fs from 'fs'
 import { isText } from 'istextorbinary'
-
+import { type ISnap } from '../../interfaces/snap.interface'
 interface FolderContents {
   // eslint-disable-next-line @typescript-eslint/ban-types
   [key: string]: FolderContents | boolean | Object
+}
+
+export interface ISnapRecursive {
+  folders: string[]
+  files: ISnap[]
 }
 
 function readFolderRecursive (folderPath: string): FolderContents {
@@ -34,7 +39,7 @@ function readFolderRecursive (folderPath: string): FolderContents {
 
   return folderContents
 }
-const folderPath = './node-express-realworld-example-app'
+const folderPath = './src'
 // const isText = (path: string) => {
 //   const textExtensions = ['.txt', '.md', '.js', '.ts'];
 //   const extension = path.slice(path.lastIndexOf('.'));
@@ -42,26 +47,28 @@ const folderPath = './node-express-realworld-example-app'
 // };
 const folderContents = readFolderRecursive(folderPath)
 
+console.log(folderContents)
 // folder Contents is an object
 const entriesFolder = Object.entries(folderContents)
 // get the values that are equal to an empty object
 const emptyObjects = entriesFolder.filter(([key, value]) => {
   return typeof value === 'object' && Object.keys(value).length === 0
-})
+}).map(n => n[0])
 
+console.log(emptyObjects)
 // create a directory for each empty object in test_folder
 emptyObjects.forEach(([key, value]) => {
-  console.log(key)
   if (fs.existsSync(`test_folder/${key}`)) return
   fs.mkdirSync(`test_folder/${key}`, { recursive: true })
 })
 
-const entriesFiles = entriesFolder.filter(([key, value]) => {
-  return typeof value === 'boolean'
-})
+// const entriesFiles = entriesFolder.filter(([key, value]) => {
+//   return typeof value === 'boolean'
+// })
 
 // read the content of the files
-entriesFiles.forEach(([key, value]) => {
-  const data = fs.readFileSync(folderPath + '/' + key, 'utf8')
-  fs.writeFileSync(`test_folder/${key}`, data)
-})
+// entriesFiles.forEach(([key, value]) => {
+//   const data = fs.readFileSync(folderPath + '/' + key, 'utf8')
+//   console.log(data)
+//   // fs.writeFileSync(`test_folder/${key}`, data)
+// })
