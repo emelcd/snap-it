@@ -20,7 +20,7 @@ export function table (input: any): void {
   }
   // replace all the strings using chalk
   console.log(
-    result
+    result.trimEnd()
   )
 }
 

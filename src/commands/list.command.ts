@@ -11,7 +11,7 @@ export const listCommand = async (): Promise<void> => {
   }
   let mapped = snapsList.map((x) => ({ tag: x.tag, name: x.name, size: x.size, description: x.description, isFolder: x.isFolder }))
   // round with 2 decimals
-  mapped = mapped.map((x) => ({ ...x, 'size(KB)': Math.round(x.size / 1000) }))
+  mapped = mapped.map((x) => ({ ...x, 'size(KB)': (x.size / 1024).toFixed(2) }))
   // if is a folder, add an asterisk to the tag
   mapped = mapped.map((x) => ({ ...x, tag: x.isFolder ? x.tag + '*' : x.tag }))
   // remove isFolder property and size
@@ -20,5 +20,7 @@ export const listCommand = async (): Promise<void> => {
   const cleaned = removedUnn.map((x) => ({ ...x, tag: x.tag, name: cleanStringLength(x.name, 20), description: cleanStringLength(x.description, 20) }))
   // reaorder in this tag, name, size, description
   table(cleaned)
+  // Add a legend that * means is a folder
+  console.log('* for folder')
   process.exit(0)
 }
