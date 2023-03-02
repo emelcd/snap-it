@@ -12,7 +12,7 @@ export async function previewCommand (tag: string): Promise<void> {
       console.log('Snap not found')
       process.exit(0)
     }
-    const template = readFileSync('/home/d/snap-it/src/data/template.html').toString()
+    const template = readFileSync('src/data/template.html').toString()
 
     const server = http.createServer((req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -28,7 +28,7 @@ export async function previewCommand (tag: string): Promise<void> {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       open('http://localhost:3000')
       setTimeout(() => {
-        process.exit(0)
+        // process.exit(0)
       }, 2e3)
     })
   } catch (error) {
