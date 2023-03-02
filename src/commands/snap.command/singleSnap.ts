@@ -22,7 +22,7 @@ export const singleSnap = async (file: string, options: any): Promise<void> => {
   }
   const description = options.description || ''
   const size = sizeof(fileContent)
-  const snapToSave = { fileName, fileContent, fileExtension, tag, description, size }
+  const snapToSave = { fileName, fileContent, fileExtension, tag, description, size, isFolder: false }
   try {
     await createConnection()
     await saveSingleSnap(snapToSave)
@@ -37,10 +37,10 @@ const saveSingleSnap = async (snapData: ISnap): Promise<void> => {
     const { snaps } = await createConnection()
     const snapExists = await snaps.findOne({ tag: snapData.tag })
     if (snapExists != null) {
-      console.log('Snap tag already exists')
+      console.log('Snap tag already exists, try again')
       process.exit(0)
     }
-    if (snapData.fileName === 'ALL' || snapData.fileName === 'all') {
+    if (snapData.fileName.toLowerCase() === 'all') {
       console.log('Snap tag cannot be ALL')
       process.exit(0)
     }

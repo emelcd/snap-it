@@ -63,7 +63,6 @@ const entriesFiles = [...entriesFolder.filter(([key, value]) => {
   return typeof value === 'boolean'
 }).values()].map(n => n[0])
 
-console.log(emptyObjects)
 console.log(entriesFiles)
 
 const toFileRecursive = (filePaths: string[]): IFileRecursive[] => {

@@ -1,3 +1,4 @@
+import { recursiveSnap } from './snap.command/recursiveSnap'
 import { singleSnap } from './snap.command/singleSnap'
 
 export async function snapCommand (file: string, options: any): Promise<void> {
@@ -7,7 +8,4 @@ export async function snapCommand (file: string, options: any): Promise<void> {
   } else {
     await recursiveSnap(file, options)
   }
-}
-
-const recursiveSnap = async (file: string, options: any): Promise<void> => {
 }

@@ -1,5 +1,7 @@
 import { Console } from 'console'
 import { Transform } from 'stream'
+import fs from 'fs'
+import { isText } from 'istextorbinary'
 
 export function table (input: any): void {
   const ts = new Transform({ transform (chunk, enc, cb) { cb(null, chunk) } })
@@ -36,4 +38,38 @@ export function cleanStringLength (str: string, length: number = Infinity): stri
     return `${str.substring(0, length)}...`
   }
   return str
+}
+
+interface FolderContents {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  [key: string]: FolderContents | boolean | Object
+}
+
+export function readFolderRecursive (folderPath: string): FolderContents {
+  const folderContents: FolderContents = {}
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const readFolder = (path: string, parentKey?: string) => {
+    const folderFiles = fs.readdirSync(path, { withFileTypes: true })
+    folderFiles.forEach(file => {
+      const fileName = file.name
+      if (fileName.startsWith('.')) {
+        return
+      }
+      const fileKey = parentKey ? `${parentKey}/${fileName}` : fileName
+      if (file.isDirectory()) {
+        folderContents[fileKey] = {}
+        readFolder(`${path}/${fileName}`, fileKey)
+      } else {
+        const isFileText = isText(`${path}/${fileName}`)
+        if (isFileText) {
+          folderContents[fileKey] = isFileText
+        }
+      }
+    })
+  }
+
+  readFolder(folderPath)
+
+  return folderContents
 }
