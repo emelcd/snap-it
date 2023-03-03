@@ -18,7 +18,7 @@ export const listCommand = async (): Promise<void> => {
   // remove isFolder property and size
   const removedUnn = mapped.map(({ isFolder, size, ...rest }) => rest)
   // clean string length
-  const cleaned = removedUnn.map((x) => ({ ...x, tag: x.tag, name: cleanStringLength(x.name, 20), description: cleanStringLength(x.description, 20) }))
+  const cleaned = removedUnn.map((x) => ({ ...x, tag: x.tag, name: cleanStringLength(x.name, 25), description: cleanStringLength(x.description, 20) }))
   // reaorder in this tag, name, size, description
   table(cleaned)
   // Add a legend that * means is a folder

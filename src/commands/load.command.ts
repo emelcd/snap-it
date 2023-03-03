@@ -9,12 +9,13 @@ export async function loadCommand (tag: string, options: any): Promise<void> {
       console.log('Snap not found')
       process.exit(0)
     }
-    const { fileName, fileContent } = data
-    const name = options.name || fileName
-    writeFileSync(name, fileContent, 'utf8')
+    const { name, fileContent } = data
+    const fileName = options.name || name
+    writeFileSync(fileName, fileContent, 'utf8')
     console.log('Snap loaded')
     process.exit(0)
   } catch (error) {
     console.log(error)
+    process.exit(0)
   }
 }
