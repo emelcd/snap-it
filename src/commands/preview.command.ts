@@ -20,13 +20,10 @@ export async function previewCommand (tag: string): Promise<void> {
       content = content.replace('{{tag}}', query.tag || '')
       content = content.replace('{{description}}', query.description || '')
       content = content.replace('{{content}}', query.fileContent)
-      // writeFileSync('./cache.html', content)
       res.write(content)
       res.end()
     })
     server.listen(3000, () => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      open('http://localhost:3000')
       setTimeout(() => {
         process.exit(0)
       }, 2e3)

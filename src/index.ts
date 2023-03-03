@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-
 import { program } from 'commander'
 import { snapCommand } from './commands/snap.command'
 import { listCommand } from './commands/list.command'

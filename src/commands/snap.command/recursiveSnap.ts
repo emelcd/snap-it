@@ -13,7 +13,6 @@ export const recursiveSnap = async (file: string, options: any): Promise<void> =
   }
   const rawContent = readFolderRecursive(folderPath)
   const entriesFolder = Object.entries(rawContent)
-  // get the values that are equal to an empty object
   const folders = entriesFolder.filter(([key, value]) => {
     return typeof value === 'object' && Object.keys(value).length === 0
   }).map(n => n[0])
