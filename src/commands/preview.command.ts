@@ -16,9 +16,9 @@ export async function previewCommand (tag: string): Promise<void> {
 
     const server = http.createServer((req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/html' })
-      let content = template.replace('{{name}}', query.fileName)
-      content = content.replace('{{tag}}', query.tag)
-      content = content.replace('{{description}}', query.description)
+      let content = template.replace('{{name}}', query.fileName || '')
+      content = content.replace('{{tag}}', query.tag || '')
+      content = content.replace('{{description}}', query.description || '')
       content = content.replace('{{content}}', query.fileContent)
       // writeFileSync('./cache.html', content)
       res.write(content)
@@ -28,7 +28,7 @@ export async function previewCommand (tag: string): Promise<void> {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       open('http://localhost:3000')
       setTimeout(() => {
-        // process.exit(0)
+        process.exit(0)
       }, 2e3)
     })
   } catch (error) {

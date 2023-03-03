@@ -3,7 +3,7 @@ import { MongoClient, type Db, type Collection, type Document } from 'mongodb'
 
 config()
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const MONGO_URI = process.env.MONGO_URI!
+const MONGO_URI = process.env.MONGO_DEV!
 
 export const createConnection = async (): Promise<{
   client: MongoClient

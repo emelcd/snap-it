@@ -13,7 +13,8 @@ export const listCommand = async (): Promise<void> => {
   // round with 2 decimals
   mapped = mapped.map((x) => ({ ...x, 'size(KB)': (x.size / 1024).toFixed(2) }))
   // if is a folder, add an asterisk to the tag
-  mapped = mapped.map((x) => ({ ...x, tag: x.isFolder ? x.tag + '*' : x.tag }))
+  // mapped = mapped.map((x) => ({ ...x, tag: x.isFolder ? x.tag + '*' : x.tag }))
+  mapped = mapped.map((x) => ({ ...x, description: x.isFolder ? '[TREE]' + x.description : x.description }))
   // remove isFolder property and size
   const removedUnn = mapped.map(({ isFolder, size, ...rest }) => rest)
   // clean string length
@@ -21,6 +22,6 @@ export const listCommand = async (): Promise<void> => {
   // reaorder in this tag, name, size, description
   table(cleaned)
   // Add a legend that * means is a folder
-  console.log('* for folder')
+  // console.log('* for folder')
   process.exit(0)
 }
