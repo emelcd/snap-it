@@ -30,7 +30,19 @@ export async function previewCommand (tag: string): Promise<void> {
       ).catch(err => { console.error(err) })
       setTimeout(() => {
         process.exit(0)
-      }, 2e3)
+      }, 5e3)
+      console.log('Press q to quit')
+      const answer = new Promise((resolve, reject) => {
+        process.stdin.on('data', (data) => {
+          resolve(data.toString().trim())
+        })
+      })
+      answer.then((data) => {
+        if (data === 'q') {
+          process.exit(0)
+        }
+      })
+        .catch(err => { console.error(err) })
     })
   } catch (error) {
     console.log(error)

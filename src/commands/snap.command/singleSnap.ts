@@ -10,6 +10,7 @@ export const singleSnap = async (file: string, options: any): Promise<void> => {
     console.log(`File ${file} is not a text file`)
     process.exit(0)
   }
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const name = file.split('/').pop()!
   const fileContent = readFileSync(file, 'utf8').toString()
   const fileExtension = name.split('.').pop() ?? ''
