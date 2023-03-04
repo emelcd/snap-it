@@ -1,3 +1,4 @@
+import { catchError } from '../errors/catch.error'
 import { createConnection } from '../utils/db.utils'
 
 export async function deleteCommand (file: string, _options: any): Promise<void> {
@@ -26,8 +27,5 @@ export async function deleteCommand (file: string, _options: any): Promise<void>
     }
     console.log('Snap deleted')
     process.exit(0)
-  } catch (error) {
-    console.log(error)
-    process.exit(0)
-  }
+  } catch (error) { catchError(error) }
 }

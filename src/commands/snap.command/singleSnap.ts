@@ -4,6 +4,7 @@ import { type ISnap } from '../../interfaces/snap.interface'
 import { readFileSync } from 'fs'
 import { isText } from 'istextorbinary'
 import sizeof from 'object-sizeof'
+import { catchError } from '../../errors/catch.error'
 
 export const singleSnap = async (file: string, options: any): Promise<void> => {
   if (!isText(file)) {
@@ -25,10 +26,7 @@ export const singleSnap = async (file: string, options: any): Promise<void> => {
   try {
     await createConnection()
     await saveSingleSnap(snapToSave)
-  } catch (error) {
-    console.log(error)
-    process.exit(0)
-  }
+  } catch (error) { catchError(error) }
 }
 
 const saveSingleSnap = async (snapData: ISnap): Promise<void> => {
@@ -46,8 +44,5 @@ const saveSingleSnap = async (snapData: ISnap): Promise<void> => {
     await snaps.insertOne(snapData)
     console.log('Snap saved with tag:', snapData.tag)
     process.exit(0)
-  } catch (error) {
-    console.log(error)
-    process.exit(0)
-  }
+  } catch (error) { catchError(error) }
 }

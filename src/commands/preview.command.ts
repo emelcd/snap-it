@@ -3,6 +3,7 @@ import { createConnection } from '../utils/db.utils'
 import { readFileSync } from 'fs'
 import http from 'http'
 import open from 'open'
+import { catchError } from '../errors/catch.error'
 
 export async function previewCommand (tag: string): Promise<void> {
   try {
@@ -38,14 +39,9 @@ export async function previewCommand (tag: string): Promise<void> {
         })
       })
       answer.then((data) => {
-        if (data === 'q') {
-          process.exit(0)
-        }
+        if (data === 'q') { process.exit(0) }
       })
         .catch(err => { console.error(err) })
     })
-  } catch (error) {
-    console.log(error)
-    process.exit(0)
-  }
+  } catch (error) { catchError(error) }
 }

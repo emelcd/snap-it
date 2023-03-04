@@ -1,3 +1,4 @@
+import { catchError } from '../errors/catch.error'
 import { createConnection } from '../utils/db.utils'
 import { recursiveLoad } from './load.command/recursiveLoad'
 import { singleLoad } from './load.command/singleLoad'
@@ -18,8 +19,5 @@ export async function loadCommand (tag: string, options: any): Promise<void> {
     } else {
       await recursiveLoad(data)
     }
-  } catch (error) {
-    console.log(error)
-    process.exit(0)
-  }
+  } catch (error) { catchError(error) }
 }

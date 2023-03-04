@@ -15,8 +15,5 @@ export const listCommand = async (): Promise<void> => {
   const removedUnn = mapped.map(({ isFolder, size, ...rest }) => rest)
   const cleaned = removedUnn.map((x) => ({ ...x, tag: x.tag, name: cleanStringLength(x.name, 25), description: cleanStringLength(x.description, 20) }))
   table(cleaned)
-  // cleaned.forEach((d)=>{
-  //   console.log(d)
-  // })
   process.exit(0)
 }

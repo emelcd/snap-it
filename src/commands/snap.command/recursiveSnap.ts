@@ -3,6 +3,7 @@ import { generateTag, readFolderRecursive } from '../../utils/general.utils'
 import sizeof from 'object-sizeof'
 import { type IFileRecursive, type ISnapRecursive } from '../../interfaces/snap.interface'
 import { createConnection } from '../../utils/db.utils'
+import { catchError } from '../../errors/catch.error'
 
 export const recursiveSnap = async (file: string, options: any): Promise<void> => {
   const isDirectory = fs.statSync(file).isDirectory()
@@ -46,9 +47,7 @@ export const recursiveSnap = async (file: string, options: any): Promise<void> =
   try {
     await createConnection()
     await saveRecursiveSnap(snap)
-  } catch (error) {
-    console.log(error)
-  }
+  } catch (error) { catchError(error) }
 }
 
 const saveRecursiveSnap = async (snap: ISnapRecursive): Promise<void> => {
@@ -57,8 +56,5 @@ const saveRecursiveSnap = async (snap: ISnapRecursive): Promise<void> => {
     await snaps.insertOne(snap)
     console.log('Snap saved with tag: ' + snap.tag)
     process.exit(0)
-  } catch (error) {
-    console.log(error)
-    process.exit(0)
-  }
+  } catch (error) { catchError(error) }
 }
