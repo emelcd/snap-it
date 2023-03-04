@@ -13,9 +13,7 @@ const SnapSchema: Schema = new Schema<ISnapRecursive>({
     filePath: { type: String, required: true },
     fileContent: { type: String, required: true }
   }],
-  description: { type: String, required: false },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-})
+  description: { type: String, required: false }
+}, { timestamps: true })
 
 export default model<ISnapRecursive>('SnapR', SnapSchema)
