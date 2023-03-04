@@ -23,4 +23,6 @@ export interface ISnapRecursive {
   tag: string
   description: string
   files: IFileRecursive[]
+  createdAt: Date
+  updatedAt: Date
 }
