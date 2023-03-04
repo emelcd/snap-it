@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "lint": "eslint src/**/*.ts --fix",
-    "build": "esbuild src/index.ts --bundle --minify --platform=node --outfile=dist/index.js",
-    "install": "npx tsc && npm i -g"
+    "build": "esbuild src/index.ts --bundle --minify --platform=node --outfile=dist/index.js"
   },
   "keywords": [],
   "author": "emel",
