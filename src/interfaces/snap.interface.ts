@@ -6,6 +6,8 @@ export interface ISnap {
   description: string
   size: number
   isFolder: boolean
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface IFileRecursive {

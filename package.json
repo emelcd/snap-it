@@ -17,6 +17,7 @@
     "dotenv": "^16.0.3",
     "istextorbinary": "^6.0.0",
     "mongodb": "^5.0.1",
+    "mongoose": "^7.0.0",
     "object-sizeof": "^2.6.1",
     "open": "^8.4.2"
   },
